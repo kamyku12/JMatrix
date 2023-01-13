@@ -1,7 +1,7 @@
 # Folders
 .idea/
 
-# *.iml
+JMatrix.iml
 
 # Compiled class file
 *.class
