@@ -76,10 +76,11 @@ public class Matrix {
     /**
      * Makes a 1d matrix with values of param
      * @param data - 1d array with values of double
+     * @throws IllegalArgumentException when given array is null
      */
     public Matrix(double[] data) {
         if(data == null){
-            throw new IllegalArgumentException("Podana macierz jest pusta");
+            throw new IllegalArgumentException("Given array is null");
         }
 
         shape = new Shape(1, data.length);
@@ -106,6 +107,7 @@ public class Matrix {
      * Reads data from file and makes matrix from those data
      * @param fileName - file to read from
      * @param separator - separator which divides values in file
+     * @throws RuntimeException when there is word instead of value in file
      */
     public void getDataFromTxt(String fileName, char separator){
         String filePath = "C:\\studia\\semestr_5\\SztucznaInteligencja\\src\\lab3\\sources\\" + fileName;
@@ -133,7 +135,7 @@ public class Matrix {
                         }
                         catch (NumberFormatException e){
                             if(sb.toString().length() > 1)
-                                throw new RuntimeException("Nie mozna utworzyc liczby ze slowa");
+                                throw new RuntimeException("Cannot make number from word");
                             changeToNormal = true;
                             value = returnStringAsDouble(sb.toString());
                         }
@@ -289,14 +291,15 @@ public class Matrix {
      * Pops column from matrix and returns it
      * @param colNumber - number of column to pop - <0;length)
      * @return double[][] - popped column
+     * @throws IllegalArgumentException when matrix is empty or given number exceeds matrix shape
      */
     public double[][] popColumn(int colNumber){
         if(data == null){
-            throw new IllegalArgumentException("Macierz jest pusta");
+            throw new IllegalArgumentException("Matrix is empty");
         }
 
         if(colNumber >= shape.getLength() || colNumber < 0){
-            throw new IllegalArgumentException("Nieprawidłowa kolumna");
+            throw new IllegalArgumentException("Column does not exist");
         }
 
         double[][] toReturn = new double[shape.getHeight()][1];
@@ -312,14 +315,15 @@ public class Matrix {
      * Pops row from matrix and returns it
      * @param rowNumber - number of row to pop - <0;height)
      * @return double[][] - popped row
+     * @throws IllegalArgumentException when matrix is empty or row number exceeds matrix shape
      */
     public double[][] popRow(int rowNumber){
         if(data == null){
-            throw new IllegalArgumentException("Macierz jest pusta");
+            throw new IllegalArgumentException("Matrix is empty");
         }
 
         if(rowNumber >= shape.getHeight() || shape.getHeight() < 0){
-            throw new IllegalArgumentException("Nieprawidłowy wiersz");
+            throw new IllegalArgumentException("Row does not exist");
         }
 
         double[][] toReturn = new double[1][shape.getLength()];
@@ -335,15 +339,16 @@ public class Matrix {
     /**
      * Deletes column from matrix
      * @param colNumber - number of column - <0;length)
+     * @throws IllegalArgumentException when matrix is empty or column number exceeds matrix shape
      */
     //Metoda usuwa kolumnę z tablicy
     public void deleteColumnFromMatrix(int colNumber){
         if(data == null){
-            throw new IllegalArgumentException("Macierz jest pusta");
+            throw new IllegalArgumentException("Matrix is empty");
         }
 
         if(colNumber >= shape.getLength() || colNumber < 0){
-            throw new IllegalArgumentException("Nieprawidłowa kolumna");
+            throw new IllegalArgumentException("Column does not exist");
         }
 
         double[][] tmp = new double[shape.getHeight()][shape.getLength() - 1];
@@ -363,14 +368,15 @@ public class Matrix {
     /**
      * Deletes row from matrix
      * @param rowNumber - number of row to delete - <0;height)
+     * @throws IllegalArgumentException when matrix is empty or row number exceeds matrix shape
      */
     public void deleteRowFromMatrix(int rowNumber){
         if(data == null){
-            throw new IllegalArgumentException("Macierz jest pusta");
+            throw new IllegalArgumentException("Matrix is empty");
         }
 
         if(rowNumber >= shape.getHeight() || shape.getHeight() < 0){
-            throw new IllegalArgumentException("Nieprawidłowy wiersz");
+            throw new IllegalArgumentException("Row does not exist");
         }
 
         double[][] tmp = new double[shape.getHeight() - 1][shape.getLength()];
@@ -392,52 +398,56 @@ public class Matrix {
      * Returns max value of column
      * @param columnNumber - number of column
      * @return max value of column
+     * @throws RuntimeException when there is no value to read
      */
     public double maxFromColumn(int columnNumber){
         OptionalDouble maxC = Arrays.stream(getColumn(columnNumber)).max();
         if(maxC.isPresent())
             return maxC.getAsDouble();
         else
-            throw new RuntimeException("Nie mozna odczytac wartosci");
+            throw new RuntimeException("Cannot read value");
     }
 
     /**
      * Return min value of column
      * @param columnNumber - number of column
      * @return min value of column
+     * @throws RuntimeException when there is no value to read
      */
     public double minFromColumn(int columnNumber){
         OptionalDouble minC = Arrays.stream(getColumn(columnNumber)).min();
         if(minC.isPresent())
             return minC.getAsDouble();
         else
-            throw new RuntimeException("Nie mozna odczytac wartosci");
+            throw new RuntimeException("Cannot read value");
     }
 
     /**
      * Return max value from row
      * @param rowNumber - number of row
      * @return max value from row
+     * @throws RuntimeException when there is no value to read
      */
     public double maxFromRow(int rowNumber){
         OptionalDouble maxR = Arrays.stream(getRow(rowNumber)).max();
         if(maxR.isPresent())
             return maxR.getAsDouble();
         else
-            throw new RuntimeException("Nie mozna odczytac wartosci");
+            throw new RuntimeException("Cannot read value");
     }
 
     /**
      * Return min number from row
      * @param rowNumber - number of row
      * @return min value from row
+     * @throws RuntimeException when there is no value to read
      */
     public double minFromRow(int rowNumber){
         OptionalDouble minR = Arrays.stream(getRow(rowNumber)).min();
         if(minR.isPresent())
             return minR.getAsDouble();
         else
-            throw new RuntimeException("Nie mozna odczytac wartosci");
+            throw new RuntimeException("Cannot read value");
     }
 
     /**
@@ -485,10 +495,11 @@ public class Matrix {
     /**
      * Addition of two matrices
      * @param m2 - matrix to add
+     * @throws IllegalArgumentException when matrices do not have exact shapes
      */
     public void add(Matrix m2){
         if((m2.shape.getHeight() != shape.getHeight()) || (m2.shape.getLength() != shape.getLength()) )
-            throw new IllegalArgumentException("Macierze muszą być takich samych wymiarów");
+            throw new IllegalArgumentException("Matrices need to have the same shape");
 
         setData(add(getData(), m2.getData()));
     }
@@ -498,10 +509,11 @@ public class Matrix {
      * @param m1 - matrix to add
      * @param m2 - matrix to add
      * @return Result of addition as matrix
+     * @throws IllegalArgumentException when matrices do not have exact shapes
      */
     public static Matrix add(Matrix m1, Matrix m2){
         if((m1.shape.getHeight() != m2.shape.getHeight()) || (m1.shape.getLength() != m2.shape.getLength()))
-            throw new IllegalArgumentException("Macierze muszą mieć te same wymiary");
+            throw new IllegalArgumentException("Matrices need to have the same shape");
 
         return new Matrix(add(m1.getData(), m2.getData()));
     }
@@ -525,10 +537,11 @@ public class Matrix {
     /**
      * Subtraction of two matrices
      * @param m2 - matrix to subtract
+     * @throws IllegalArgumentException when matrices do not have exact shapes
      */
     public void substract(Matrix m2){
         if((m2.shape.getHeight() != shape.getHeight()) || (m2.shape.getLength() != shape.getLength()) )
-            throw new IllegalArgumentException("Macierze muszą być takich samych wymiarów");
+            throw new IllegalArgumentException("Matrices need to have the same shape");
 
         setData(substract(getData(), m2.getData()));
     }
@@ -538,10 +551,11 @@ public class Matrix {
      * @param m1 - matrix to subtract from
      * @param m2 - matrix to subtract
      * @return Result of subtraction as matrix
+     * @throws IllegalArgumentException when matrices do not have exact shapes
      */
     public static Matrix substract(Matrix m1, Matrix m2){
         if((m1.shape.getHeight() != m2.shape.getHeight()) || (m1.shape.getLength() != m2.shape.getLength()))
-            throw new IllegalArgumentException("Macierze muszą mieć te same wymiary");
+            throw new IllegalArgumentException("Matrices need to have the same shape");
 
         return new Matrix(substract(m1.getData(), m2.getData()));
     }
@@ -614,10 +628,11 @@ public class Matrix {
      * @param m1 - first matrix to multiply
      * @param m2 - second matrix to multiply
      * @return Result of multiplication as matrix
+     * @throws IllegalArgumentException when height of second matrix is not equal to length of first matrix
      */
     public static Matrix multiply(Matrix m1, Matrix m2){
         if(m1.shape.getLength() != m2.shape.getHeight())
-            throw new IllegalArgumentException("Ilość wierszy drugiej macierzy musi równać się ilości kolumn pierwszej");
+            throw new IllegalArgumentException("Height of second matrix must equal length of first matrix");
 
         return new Matrix(multiply(m1.getData(), m2.getData()));
     }
@@ -627,8 +642,12 @@ public class Matrix {
      * @param t1 - first 2d array to multiply
      * @param t2 - second matrix to multiply
      * @return Result of multiplication as 2d array
+     * @throws IllegalArgumentException when height of second matrix is not equal to length of first matrix
      */
     public static double[][] multiply(double[][] t1, double[][] t2){
+        if(t1[0].length != t2.length)
+            throw new IllegalArgumentException("Height of second matrix must equal length of first matrix");
+
         double[][] tmp = new double[t1.length][t2[0].length];
         for(int i = 0; i < tmp.length; i++)
             for(int j = 0; j < tmp[0].length; j++)
@@ -736,7 +755,7 @@ public class Matrix {
     //Metoda zwraca wyznacznik macierzy
     public double det(){
         if(shape.getHeight() != shape.getLength())
-            throw new IllegalArgumentException("Wyznacznik macierzy liczymy tylko dla macierzy kwadratowej");
+            throw new IllegalArgumentException("Matrix is not square");
 
         if(shape.getHeight() == 1)
             return data[0][0];
@@ -763,7 +782,7 @@ public class Matrix {
     public void inv(){
         double det = det();
         if(det == 0)
-            throw new IllegalArgumentException("Nie można odwórcić macierzy, wyznacznik macierzy jest równy 0");
+            throw new IllegalArgumentException("Cannot inverse matrix, determinant is equal to 0");
 
         for(int i = 0; i < shape.getHeight(); i++){
             for(int j = 0; j < shape.getLength(); j++){
@@ -793,11 +812,12 @@ public class Matrix {
      * Makes identity matrix
      * @param k - dimension of matrix
      * @return identity matrix
+     * @throws IllegalArgumentException when k is less than 1
      */
     //Metoda zwraca macierz jednostkową o wymiarach k x k
     public static Matrix identity(int k){
         if(k < 1)
-            throw new IllegalArgumentException("Macierz nie może mieć mniejszych wymiarów niż 1");
+            throw new IllegalArgumentException("Matrix cannot have shape less than 1");
 
         Matrix I = new Matrix(k, k);
         int x = 0, y = 0;
@@ -953,10 +973,11 @@ public class Matrix {
     /**
      * Concatenation of matrix and 1d array by columns
      * @param data - 1d array to concatenate
+     * @throws IllegalArgumentException when number of rows of matrix and array is not equal
      */
     public void colsConcatenate(double[] data){
         if(data.length != shape.getHeight())
-            throw new IllegalArgumentException("Ilość wierszy nie zgadza się");
+            throw new IllegalArgumentException("Number of rows are not equal");
 
         double[][] oldData = getData();
         this.data = new double[shape.getHeight()][shape.getLength() + 1];
@@ -973,11 +994,12 @@ public class Matrix {
     /**
      * Concatenation of matrix and 2d array by columns
      * @param data - 2d array to concatenate
+     * @throws IllegalArgumentException when number of rows of matrix and array is not equal
      */
     //metoda laczy macierz kolumnowo z talica dwuwymiarowa
     public void colsConcatenate(double[][] data){
         if(data.length != shape.getHeight())
-            throw new IllegalArgumentException("Ilość wierszy nie zgadza się");
+            throw new IllegalArgumentException("Number of rows are not equal");
 
         double[][] oldData = getData();
         this.data = new double[shape.getHeight()][shape.getLength() + data[0].length];
