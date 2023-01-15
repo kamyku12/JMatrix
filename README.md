@@ -5,4 +5,4 @@ Inspiration for this project was willing to improve my Java skills, and desire t
 
 Feel free to download, edit and use those files.
 
-I would appriciate comments about good and also bad things i did in thi project.
+I would appriciate comments about good and also bad things i did in this project.
