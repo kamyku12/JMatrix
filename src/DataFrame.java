@@ -89,13 +89,7 @@ public class DataFrame extends Matrix{
         refreshMaxLengthOfElement();
     }
 
-    public void setLabel(int labelNumber, String labelContent)
-    {
-        this.labels[labelNumber] = labelContent;
-        refreshMaxLengthOfElement();
-    }
-
-    public void changeLabel(int labelNumber, String newLabel){
+    public void setLabel(int labelNumber, String newLabel){
         if(labels == null){
             throw new IllegalArgumentException("Etykiety są puste");
         }
@@ -162,6 +156,12 @@ public class DataFrame extends Matrix{
         StringBuilder sb = new StringBuilder();
         if(labels != null) {
             for (int i = 0; i < labels.length; i++) {
+                if(!showAll) {
+                    if (shape.getHeight() > 6 && i == 3) {
+                        sb.append("| ").append(String.format("%" + maxLengthOfElement + "s", ". . .")).append("\n");
+                        i = shape.getHeight() - 3;
+                    }
+                }
                 sb.append(" ").append(String.format("%" + maxLengthOfElement + "s", labels[i]));
             }
         }
