@@ -1,8 +1,7 @@
 import java.util.Arrays;
 
-/*
- * Jest to klasa która określi obiekt DataFrame, posiada on właściwości macierzy,
- * Posiada dodatkowe pole "label", które pozwala określić słownie daną kolumnę
+/**
+ * Subclass of Matrix, consist of data and labels
  */
 public class DataFrame extends Matrix{
     private String[] labels;
@@ -55,21 +54,17 @@ public class DataFrame extends Matrix{
 
     @Override
     protected void refreshMaxLengthOfElement(){
-        if(data != null) {
-            for (int i = 0; i < shape.getHeight(); i++) {
-                for (int j = 0; j < shape.getLength(); j++) {
-                    int lengthOfValue = String.valueOf(data[i][j]).length();
-                    if (lengthOfValue > maxLengthOfElement)
-                        maxLengthOfElement = lengthOfValue;
-                }
-            }
-        }
-
-        if(labels != null) {
+        super.refreshMaxLengthOfElement();
+        if(labels != null){
             for (int i = 0; i < labels.length; i++) {
-                int lenthOfLabel = labels[i].length();
-                if (lenthOfLabel > maxLengthOfElement)
-                    maxLengthOfElement = lenthOfLabel;
+                if(!showAll && i == 3)
+                    i = labels.length + 3;
+
+                int lengthOfValue = labels[i].length();
+                if (lengthOfValue > maxLengthOfElement) {
+                    maxLengthOfElement = lengthOfValue;
+                    maxElement = String.valueOf(labels[i]);
+                }
             }
         }
     }
@@ -78,30 +73,52 @@ public class DataFrame extends Matrix{
         return labels;
     }
 
+    /**
+     * Sets given string of labels as new labels of DataFrame
+     * @param labels, array of Strings
+     * @throws IllegalArgumentException when argument is null or arguemnt length is not equal that of DataFrame's
+     */
     public void setLabels(String[] labels) {
-        if(this.labels == null){
+        if(labels == null){
+            throw  new IllegalArgumentException("Argument is null");
+        }
+
+        else if(this.labels == null){
             this.labels = new String[labels.length];
             System.arraycopy(labels, 0, this.labels, 0, labels.length);
         }
         else{
-            System.arraycopy(labels, 0, this.labels, 0, labels.length);
+            if(labels.length != this.labels.length)
+                throw  new IllegalArgumentException("Argument length is not equal that of DataFrame labels");
+            else{
+                System.arraycopy(labels, 0, this.labels, 0, labels.length);
+                refreshMaxLengthOfElement();
+            }
         }
-        refreshMaxLengthOfElement();
     }
 
+    /**
+     * Sets new name of label given by params
+     * @param labelNumber number of label to change
+     * @param newLabel new value to replace with
+     */
     public void setLabel(int labelNumber, String newLabel){
         if(labels == null){
-            throw new IllegalArgumentException("Etykiety są puste");
+            throw new IllegalArgumentException("Labels are null");
         }
 
         if(labelNumber >= labels.length || labelNumber < 0){
-            throw new IllegalArgumentException("Nieprawidłowy numer etykiety");
+            throw new IllegalArgumentException("Bad index of labels");
         }
 
         labels[labelNumber] = newLabel;
         refreshMaxLengthOfElement();
     }
 
+    /**
+     * Removes label given by param from labels
+     * @param labelNumber number of label to remove
+     */
     public void deleteLabel(int labelNumber){
         if(labels != null) {
             String[] tmpLabels = new String[shape.getLength() - 1];
@@ -142,11 +159,16 @@ public class DataFrame extends Matrix{
         refreshMaxLengthOfElement();
     }
 
-    public double[] getColumn(String columnName)
+    /**
+     * Returns array of data given by column label
+     * @param columnLabel label of column to return
+     * @return array of doubles
+     */
+    public double[] getColumn(String columnLabel)
     {
         int i = 0;
         for(; i < labels.length; i++)
-            if(labels[i].equals(columnName))
+            if(labels[i].equals(columnLabel))
                 break;
         return getColumn(i);
     }
