@@ -2,6 +2,8 @@ import java.util.Arrays;
 
 /**
  * Subclass of Matrix, consist of data and labels
+ * @author Jakub Kamiński
+ * @version 1.0
  */
 public class DataFrame extends Matrix{
     private String[] labels;
