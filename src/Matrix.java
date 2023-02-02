@@ -9,10 +9,10 @@ import java.util.Scanner;
  * @author Jakub Kamiński
  * @version 1.0
  */
-public class Matrix {
+public class Matrix<T extends  > {
 
     protected Shape shape;
-    protected double[][] data;
+    protected T[][] data;
     protected double max = 0;
     protected double min = 0;
     protected boolean showAll = false;
@@ -34,7 +34,7 @@ public class Matrix {
      * @param columns - number of columns for matrix
      */
     public Matrix(int rows, int columns){
-        data = new double[rows][columns];
+        data = new T[rows][columns];
         shape = new Shape(rows, columns);
     }
 
