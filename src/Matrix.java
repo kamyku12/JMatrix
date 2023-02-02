@@ -1034,8 +1034,11 @@ public class Matrix {
      * @param value - value to fill with
      */
     public void fill(double value){
+        if( data == null)
+            throw new RuntimeException("Cannot fill beacuse array is null");
         for(double[] data : data){
             Arrays.fill(data, value);
         }
+        refreshConstants();
     }
 }
