@@ -50,7 +50,7 @@ public class Matrix {
      */
     public Matrix(double[][] data, boolean refresh){
         if(data == null){
-            throw new IllegalArgumentException("Podana macierz jest pusta");
+            throw new IllegalArgumentException("Given array is null");
         }
 
         this.data = new double[data.length][data[0].length];
@@ -105,12 +105,11 @@ public class Matrix {
 
     /**
      * Reads data from file and makes matrix from those data
-     * @param fileName - file to read from
+     * @param filePath - file to read from
      * @param separator - separator which divides values in file
      * @throws RuntimeException when there is word instead of value in file
      */
-    public void getDataFromTxt(String fileName, char separator){
-        String filePath = "C:\\studia\\semestr_5\\SztucznaInteligencja\\src\\lab3\\sources\\" + fileName;
+    public void getDataFromTxt(String filePath, char separator){
         File f = new File(filePath);
 
         int rows = countRowsFromTxt(f);
