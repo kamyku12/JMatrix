@@ -6,17 +6,29 @@ import java.util.Arrays;
 public class DataFrame extends Matrix{
     private String[] labels;
 
+    /**
+     * Makes an empty DataFrame
+     */
     public DataFrame(){
         super();
         labels = null;
     }
 
+    /**
+     * Makes and empty DataFrame with number of rows and columns
+     * @param rows number of rows in DataFrame
+     * @param columns number of columns in DataFrame
+     */
     public DataFrame(int rows, int columns){
         super(rows, columns);
         labels = new String[columns];
         Arrays.fill(labels, "");
     }
 
+    /**
+     * Makes DataFrame with values from 2D array given as param
+     * @param data 2D array as source of values
+     */
     public DataFrame(double[][] data){
         super(data);
         labels = new String[data[0].length];
@@ -24,6 +36,10 @@ public class DataFrame extends Matrix{
         refreshConstants();
     }
 
+    /**
+     * Makes DataFrame from Matrix given as param
+     * @param m Matrix to make DataFrame from
+     */
     public DataFrame(Matrix m){
         super(m);
         labels = new String[m.getLength()];
@@ -31,6 +47,10 @@ public class DataFrame extends Matrix{
         refreshConstants();
     }
 
+    /**
+     * Copying constructor
+     * @param df DataFrame to copy from
+     */
     public DataFrame(DataFrame df){
         this.data = df.getData();
         this.labels = df.getLabels();
@@ -40,6 +60,10 @@ public class DataFrame extends Matrix{
         this.maxLengthOfElement = df.maxLengthOfElement;
     }
 
+    /**
+     * Makes DataFrame with given shape as param
+     * @param s Shape of DataFrame
+     */
     public DataFrame(Shape s){
         super(s);
         labels = new String[s.getLength()];
@@ -108,7 +132,7 @@ public class DataFrame extends Matrix{
         }
 
         if(labelNumber >= labels.length || labelNumber < 0){
-            throw new IllegalArgumentException("Bad index of labels");
+            throw new IllegalArgumentException("Wrong index of label");
         }
 
         labels[labelNumber] = newLabel;
@@ -135,11 +159,11 @@ public class DataFrame extends Matrix{
     @Override
     public double[][] popColumn(int colNumber){
         if(data == null){
-            throw new IllegalArgumentException("Macierz jest pusta");
+            throw new IllegalArgumentException("Matrix is empty");
         }
 
         if(colNumber >= shape.getLength() || colNumber < 0){
-            throw new IllegalArgumentException("Nieprawidłowa kolumna");
+            throw new IllegalArgumentException("Wrong column number");
         }
 
         double[][] toReturn = new double[shape.getHeight()][1];
@@ -153,6 +177,10 @@ public class DataFrame extends Matrix{
         return toReturn;
     }
 
+    /**
+     * Fills labels with given string
+     * @param stringToFill value to fill labels with
+     */
     public void fillLabels(String stringToFill)
     {
         Arrays.fill(this.labels, stringToFill);
