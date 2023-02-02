@@ -4,6 +4,11 @@ import java.util.Arrays;
 import java.util.OptionalDouble;
 import java.util.Scanner;
 
+/**
+ * Representation of matrices in Java
+ * @author Jakub Kamiński
+ * @version 1.0
+ */
 public class Matrix {
 
     protected Shape shape;
