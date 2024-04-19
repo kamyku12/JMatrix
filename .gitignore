@@ -3,9 +3,6 @@
 
 JMatrix.iml
 
-# Tests file
-Test.java
-
 # Compiled class file
 *.class
 
@@ -19,7 +16,6 @@ Test.java
 .mtj.tmp/
 
 # Package Files #
-*.jar
 *.war
 *.nar
 *.ear
