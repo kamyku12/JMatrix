@@ -3,6 +3,9 @@
 
 JMatrix.iml
 
+# Tests file
+Test.java
+
 # Compiled class file
 *.class
 
