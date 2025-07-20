@@ -266,8 +266,6 @@ public class Matrix {
     /**
      * Refreshes max length of value from data
      */
-    // Metoda do odświeżenia długości tekstu, aby wyświetlany format był bardziej
-    // kompatkowy i czytelny
     protected void refreshMaxLengthOfElement() {
         if (data != null) {
             maxLengthOfElement = String.valueOf(data[0][0]).length();
@@ -361,7 +359,6 @@ public class Matrix {
      * @throws IllegalArgumentException when matrix is empty or column number
      *                                  exceeds matrix shape
      */
-    // Metoda usuwa kolumnę z tablicy
     public void deleteColumnFromMatrix(int colNumber) {
         if (data == null) {
             throw new IllegalArgumentException("Matrix is empty");
@@ -600,7 +597,6 @@ public class Matrix {
      * @param t2 - 2d array to subtract
      * @return Result of subtraction as 2d array
      */
-    // Metoda zwraca tablice zawierajaca roznice podanych w argumentach tablic
     public static double[][] substract(double[][] t1, double[][] t2) {
         double[][] tmp = new double[t1.length][t1[0].length];
         for (int i = 0; i < tmp.length; i++)
@@ -803,7 +799,6 @@ public class Matrix {
      * @throws IllegalArgumentException when matrix is not square matrix
      * @return determinant of matrix
      */
-    // Metoda zwraca wyznacznik macierzy
     public double det() {
         if (shape.getHeight() != shape.getLength())
             throw new IllegalArgumentException("Matrix is not square");
@@ -867,7 +862,6 @@ public class Matrix {
      * @return identity matrix
      * @throws IllegalArgumentException when k is less than 1
      */
-    // Metoda zwraca macierz jednostkową o wymiarach k x k
     public static Matrix identity(int k) {
         if (k < 1)
             throw new IllegalArgumentException("Matrix cannot have shape less than 1");
@@ -1061,7 +1055,6 @@ public class Matrix {
      * @throws IllegalArgumentException when number of rows of matrix and array is
      *                                  not equal
      */
-    // metoda laczy macierz kolumnowo z talica dwuwymiarowa
     public void colsConcatenate(double[][] data) {
         if (data.length != shape.getHeight())
             throw new IllegalArgumentException("Number of rows are not equal");
